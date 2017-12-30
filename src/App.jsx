@@ -74,10 +74,12 @@ class IssueList extends React.Component {
     constructor() {
         super();
 
-        this.state = { issues: issues };
+        this.state = { issues: [] };
 
         setTimeout( this.createTestIssue.bind( this ), 2000 );
     }
+
+    // 1. MOUNT
 
     render() {
         return (
@@ -90,6 +92,18 @@ class IssueList extends React.Component {
                 <IssueAdd/>
             </div>
         );
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    // PRIVATE METHODS
+
+    loadData() {
+        setTimeout( () => {
+            this.setState( { issues: issues } );
+        }, 500 );
     }
 
     createTestIssue() {
