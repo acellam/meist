@@ -4,45 +4,44 @@ class IssueFilter extends React.Component {
     render() {
         return (
             <div>This is a placeholder for the Issue Filter.</div>
-        )
+        );
     }
 }
 
-const IssueRow = (props) => (
+const IssueRow = props => (
     <tr>
-        <td>{props.issue.id}</td>
+    <td>{props.issue.id}</td>
         <td>{props.issue.status}</td>
-        <td>{props.issue.owner}</td>
-        <td>{props.issue.created.toDateString()}</td>
+    <td>{props.issue.owner}</td>
+    <td>{props.issue.created.toDateString()}</td>
         <td>{props.issue.effort}</td>
         <td>{props.issue.completionDate ? props.issue.completionDate.toDateString() : ""}</td>
-        <td>{props.issue.title}</td>
-    </tr>
+    <td>{props.issue.title}</td>
+  </tr>
 );
 
-function IssueTable(props) {
-    const issueRows = props.issues.map( issue => <IssueRow key={issue.id} issue={issue}/> );
+function IssueTable( props ) {
+    const issueRows = props.issues.map( issue => <IssueRow key={issue.id} issue={issue} /> );
 
     return (
         <table className="bordered-table">
             <thead>
-            <tr>
+                <tr>
                 <th>Id</th>
-                <th>Status</th>
-                <th>Owner</th>
-                <th>Created</th>
-                <th>Effort</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                    <th>Created</th>
+                    <th>Effort</th>
                 <th>Completion Date</th>
                 <th>Title</th>
-            </tr>
-            </thead>
-            <tbody>{issueRows}</tbody>
-        </table>
+              </tr>
+          </thead>
+        <tbody>{issueRows}</tbody>
+      </table>
     );
 }
 
 class IssueAdd extends React.Component {
-
     constructor() {
         super();
 
@@ -54,21 +53,21 @@ class IssueAdd extends React.Component {
     render() {
         return (
             <div>
-                <form name="issueAdd" onSubmit={this.handleSubmit}>
-                    <input type="text" name="owner" placeholder="Owner"/>
-                    <input type="text" name="title" placeholder="Title"/>
+            <form name="issueAdd" onSubmit={this.handleSubmit}>
+                  <input type="text" name="owner" placeholder="Owner" />
+                    <input type="text" name="title" placeholder="Title" />
                     <button>Add</button>
-                </form>
-            </div>
-        )
+            </form>
+          </div>
+        );
     }
 
     // PRIVATE METHODS
 
-    handleSubmit(e) {
+    handleSubmit( e ) {
         e.preventDefault();
 
-        var form = document.forms.issueAdd;
+        const form = document.forms.issueAdd;
 
         this.props.createIssue( {
             owner: form.owner.value,
@@ -84,19 +83,24 @@ class IssueAdd extends React.Component {
 
 const issues = [
     {
-        id: 1, status: "Open", owner: "Ravan",
-        created: new Date( "2016-08-15" ), effort: 5,
+        id: 1,
+        status: "Open",
+        owner: "Ravan",
+        created: new Date( "2016-08-15" ),
+        effort: 5,
         completionDate: undefined,
         title: "Error in console when clicking Add",
     }, {
-        id: 2, status: "Assigned", owner: "Eddie",
-        created: new Date( "2016-08-16" ), effort: 14,
+        id: 2,
+        status: "Assigned",
+        owner: "Eddie",
+        created: new Date( "2016-08-16" ),
+        effort: 14,
         completionDate: new Date( "2016-08-30" ),
         title: "Missing bottom border on panel",
-    }, ];
+    } ];
 
 class IssueList extends React.Component {
-
     constructor() {
         super();
 
@@ -110,13 +114,13 @@ class IssueList extends React.Component {
     render() {
         return (
             <div>
-                <h1>Issue Tracker</h1>
-                <IssueFilter/>
-                <hr/>
-                <IssueTable issues={this.state.issues}/>
-                <hr/>
-                <IssueAdd createIssue={this.createIssue}/>
-            </div>
+            <h1>Issue Tracker</h1>
+            <IssueFilter />
+                <hr />
+                <IssueTable issues={this.state.issues} />
+                <hr />
+                <IssueAdd createIssue={this.createIssue} />
+          </div>
         );
     }
 
@@ -128,11 +132,11 @@ class IssueList extends React.Component {
 
     loadData() {
         setTimeout( () => {
-            this.setState( { issues: issues } );
+            this.setState( { issues } );
         }, 500 );
     }
 
-    createIssue(newIssue) {
+    createIssue( newIssue ) {
         const newIssues = this.state.issues.slice();
 
         newIssue.id = this.state.issues.length + 1;
@@ -142,4 +146,4 @@ class IssueList extends React.Component {
     }
 }
 
-ReactDOM.render( <IssueList/>, contentNode ); // Render the component inside
+ReactDOM.render( <IssueList />, contentNode ); // Render the component inside
