@@ -1,12 +1,13 @@
 const express = require( "express" );
-
-const app = express();
 const swaggerUi = require( "swagger-ui-express" );
 const swaggerDocument = require( "./swagger.json" );
+const bodyParser = require( "body-parser" );
 
-app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup( swaggerDocument ) );
+const app = express();
 
 app.use( express.static( "static" ) );
+app.use( bodyParser.json() );
+app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup( swaggerDocument ) );
 
 const issues = [
     {
@@ -32,6 +33,20 @@ app.get( "/api/issues", ( req, res ) => {
     const metadata = { total_count: issues.length };
 
     res.json( { _metadata: metadata, records: issues } );
+} );
+
+app.post( "/api/issues", ( req, res ) => {
+    const newIssue = req.body;
+
+    newIssue.id = issues.length + 1;
+    newIssue.created = new Date();
+
+    if ( !newIssue.status ) {
+        newIssue.status = "New";
+    }
+
+    issues.push( newIssue );
+    res.json( newIssue );
 } );
 
 app.listen( 3000, () => {
