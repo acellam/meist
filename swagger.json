@@ -1,0 +1,159 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Meist API",
+    "description": "Meist API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/Apache-2.0"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Issues",
+      "description": "API for issues in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/issues": {
+      "post": {
+        "tags": [
+          "Issues"
+        ],
+        "description": "Create new issue in system",
+        "parameters": [
+          {
+            "name": "issue",
+            "in": "body",
+            "description": "Issue that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Issue"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New issue is created",
+            "schema": {
+              "$ref": "#/definitions/Issue"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Issues"
+        ],
+        "summary": "Get all issues in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Issues"
+            }
+          }
+        }
+      }
+    },
+    "/issues/{issueId}": {
+      "parameters": [
+        {
+          "name": "issueId",
+          "in": "path",
+          "required": true,
+          "description": "ID of issue that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Issues"
+        ],
+        "summary": "Get issue with given ID",
+        "responses": {
+          "200": {
+            "description": "Issue is found",
+            "schema": {
+              "$ref": "#/definitions/Issue"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete issue with given ID",
+        "tags": [
+          "Issues"
+        ],
+        "responses": {
+          "200": {
+            "description": "Issue is deleted",
+            "schema": {
+              "$ref": "#/definitions/Issue"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update issue with given ID",
+        "tags": [
+          "Issues"
+        ],
+        "parameters": [
+          {
+            "name": "issue",
+            "in": "body",
+            "description": "Issue with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/Issue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Issue is updated",
+            "schema": {
+              "$ref": "#/definitions/Issue"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": [
+        "title",
+        "_id"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "title": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "Issues": {
+      "type": "array",
+      "$ref": "#/definitions/Issue"
+    }
+  }
+}
