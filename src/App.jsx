@@ -49,10 +49,43 @@ class IssueRow extends React.Component {
 }
 
 class IssueAdd extends React.Component {
+
+    constructor() {
+        super();
+
+        this.handleSubmit = this.handleSubmit.bind( this );
+    }
+
+    // 1.Mount
+
     render() {
         return (
-            <div>This is a placeholder for an Issue Add entry form.</div>
+            <div>
+                <form name="issueAdd" onSubmit={this.handleSubmit}>
+                    <input type="text" name="owner" placeholder="Owner"/>
+                    <input type="text" name="title" placeholder="Title"/>
+                    <button>Add</button>
+                </form>
+            </div>
         )
+    }
+
+    // PRIVATE METHODS
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        var form = document.forms.issueAdd;
+
+        this.props.createIssue( {
+            owner: form.owner.value,
+            title: form.title.value,
+            status: "New",
+            created: new Date(),
+        } );
+        // clear the form for the next input
+        form.owner.value = "";
+        form.title.value = "";
     }
 }
 
@@ -76,7 +109,7 @@ class IssueList extends React.Component {
 
         this.state = { issues: [] };
 
-        setTimeout( this.createTestIssue.bind( this ), 2000 );
+        this.createIssue = this.createIssue.bind(this);
     }
 
     // 1. MOUNT
@@ -89,7 +122,7 @@ class IssueList extends React.Component {
                 <hr/>
                 <IssueTable issues={this.state.issues}/>
                 <hr/>
-                <IssueAdd/>
+                <IssueAdd createIssue={this.createIssue} />
             </div>
         );
     }
@@ -104,13 +137,6 @@ class IssueList extends React.Component {
         setTimeout( () => {
             this.setState( { issues: issues } );
         }, 500 );
-    }
-
-    createTestIssue() {
-        this.createIssue( {
-            status: "New", owner: "Pieta", created: new Date(),
-            title: "Completion date should be optional",
-        } );
     }
 
     createIssue(newIssue) {
