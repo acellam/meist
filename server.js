@@ -2,6 +2,7 @@ const express = require( "express" );
 const swaggerUi = require( "swagger-ui-express" );
 const swaggerDocument = require( "./swagger.json" );
 const bodyParser = require( "body-parser" );
+const { MongoClient } = require( "mongodb" );
 
 const app = express();
 
@@ -9,7 +10,9 @@ app.use( express.static( "static" ) );
 app.use( bodyParser.json() );
 app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup( swaggerDocument ) );
 
-const issues = [
+let db;
+
+const memIssues = [
     {
         id: 1,
         status: "Open",
@@ -66,16 +69,32 @@ function validateIssue( issue ) {
     return null;
 }
 
-app.get( "/api/issues", ( req, res ) => {
-    const metadata = { total_count: issues.length };
+MongoClient.connect( "mongodb://localhost:27017" ).then( ( client ) => {
+    db = client.db( "issuetracker" );
 
-    res.json( { _metadata: metadata, records: issues } );
+    app.listen( 3000, () => {
+        console.log( "App started on port 3000" );
+    } );
+} ).catch( ( error ) => {
+    console.log( "ERROR:", error );
+} );
+
+app.get( "/api/issues", ( req, res ) => {
+    db.collection( "issues" ).find().toArray()
+        .then( ( issues ) => {
+            const metadata = { total_count: issues.length };
+            res.json( { _metadata: metadata, records: issues } );
+        } )
+        .catch( ( error ) => {
+            console.log( error );
+            res.status( 500 ).json( { message: `Internal Server Error: ${ error }` } );
+        } );
 } );
 
 app.post( "/api/issues", ( req, res ) => {
     const newIssue = req.body;
 
-    newIssue.id = issues.length + 1;
+    newIssue.id = memIssues.length + 1;
     newIssue.created = new Date();
 
     if ( !newIssue.status ) {
@@ -89,10 +108,6 @@ app.post( "/api/issues", ( req, res ) => {
         return;
     }
 
-    issues.push( newIssue );
+    memIssues.push( newIssue );
     res.json( newIssue );
-} );
-
-app.listen( 3000, () => {
-    console.log( "App started on port 3000" );
 } );
