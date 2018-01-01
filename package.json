@@ -8,7 +8,7 @@
     "compile:release": "grunt release",
     "compile": "webpack",
     "pretest": "npm run compile && npm run lint && npm run compile:release",
-    "watch": "webpack --watch",
+    "watch": "webpack-dev-server  --hot --inline",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.json '**/*.js'",
     "lint:fix": "npm run lint --fix"
@@ -46,6 +46,7 @@
     "grunt-eslint": "^20.1.0",
     "nodemon": "^1.14.6",
     "pre-commit": "^1.2.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
   }
 }
