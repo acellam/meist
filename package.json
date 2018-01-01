@@ -4,11 +4,11 @@
   "description": "An issue tracker based on on mern",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -w server.js server.js",
+    "start": "nodemon -w server server/server.js",
     "compile:release": "grunt release",
-    "compile": "babel src --presets react,es2015 --out-dir static",
+    "compile": "webpack",
     "pretest": "npm run compile && npm run lint && npm run compile:release",
-    "watch": "babel src --presets react,es2015 --out-dir static --watch",
+    "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.json '**/*.js'",
     "lint:fix": "npm run lint --fix"
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
     "eslint": "^4.14.0",
     "eslint-config-airbnb": "^16.1.0",
@@ -40,6 +41,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^20.1.0",
     "nodemon": "^1.14.6",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "webpack": "^3.10.0"
   }
 }
