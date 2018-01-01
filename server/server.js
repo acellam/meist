@@ -5,7 +5,7 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import bodyParser from "body-parser";
 import { MongoClient } from "mongodb";
-import { validateIssue } from "./issue";
+import Issue from "./issue";
 import { loadHotLoadModule } from "./development";
 
 import swaggerDocument from "../docs/swagger.json";
@@ -52,14 +52,14 @@ app.post( "/api/issues", ( req, res ) => {
         newIssue.status = "New";
     }
 
-    const err = validateIssue( newIssue );
+    const err = Issue.validateIssue( newIssue );
 
     if ( err ) {
         res.status( 422 ).json( { message: `Invalid requrest: ${ err }` } );
         return;
     }
 
-    db.collection( "issues" ).insertOne( newIssue )
+    db.collection( "issues" ).insertOne( Issue.cleanupIssue( newIssue ) )
         .then( result =>
             db.collection( "issues" ).find( { _id: result.insertedId } ).limit( 1 ).next() )
         .then( ( foundIssue ) => {

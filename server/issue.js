@@ -15,25 +15,26 @@ const issueFieldType = {
     title: "required",
 };
 
+function cleanupIssue( issue ) {
+    const cleanedUpIssue = {};
+    Object.keys( issue ).forEach( ( field ) => {
+        if ( issueFieldType[ field ] ) cleanedUpIssue[ field ] = issue[ field ];
+    } );
+    return cleanedUpIssue;
+}
 function validateIssue( issue ) {
-    Object.keys( issueFieldType ).forEach( ( key ) => {
-        const type = issueFieldType[ key ];
-
-        if ( !type ) {
-            // eslint-disable-next-line no-param-reassign
-            delete issue[ key ];
-        } else if ( type === "required" && !issue[ key ] ) {
-            return `${ key } is required.`;
+    const errors = [];
+    Object.keys( issueFieldType ).forEach( ( field ) => {
+        if ( issueFieldType[ field ] === "required" && !issue[ field ] ) {
+            errors.push( `Missing mandatory field: ${ field }` );
         }
     } );
-
     if ( !validIssueStatus[ issue.status ] ) {
-        return `${ issue.status } is not a valid status.`;
+        errors.push( `${ issue.status } is not a valid status.` );
     }
-
-    return null;
+    return ( errors.length ? errors.join( "; " ) : null );
 }
-
-module.exports = {
+export default {
     validateIssue,
+    cleanupIssue,
 };
