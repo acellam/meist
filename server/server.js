@@ -5,14 +5,16 @@ const bodyParser = require( "body-parser" );
 const { MongoClient } = require( "mongodb" );
 
 const { validateIssue } = require( "./issue" );
+const { loadHotLoadModule } = require( "./development" );
 
 const app = express();
+let db;
 
 app.use( express.static( "static" ) );
 app.use( bodyParser.json() );
 app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup( swaggerDocument ) );
 
-let db;
+loadHotLoadModule( app );
 
 MongoClient.connect( "mongodb://localhost:27017" ).then( ( client ) => {
     db = client.db( "issuetracker" );
