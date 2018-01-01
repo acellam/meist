@@ -1,11 +1,16 @@
-const express = require( "express" );
-const swaggerUi = require( "swagger-ui-express" );
-const swaggerDocument = require( "../docs/swagger.json" );
-const bodyParser = require( "body-parser" );
-const { MongoClient } = require( "mongodb" );
+import "babel-polyfill";
+import SourceMapSupport from "source-map-support";
 
-const { validateIssue } = require( "./issue" );
-const { loadHotLoadModule } = require( "./development" );
+import express from "express";
+import swaggerUi from "swagger-ui-express";
+import bodyParser from "body-parser";
+import { MongoClient } from "mongodb";
+import { validateIssue } from "./issue";
+import { loadHotLoadModule } from "./development";
+
+import swaggerDocument from "../docs/swagger.json";
+
+SourceMapSupport.install();
 
 const app = express();
 let db;
