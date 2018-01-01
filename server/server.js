@@ -1,8 +1,10 @@
 const express = require( "express" );
 const swaggerUi = require( "swagger-ui-express" );
-const swaggerDocument = require( "./swagger.json" );
+const swaggerDocument = require( "../docs/swagger.json" );
 const bodyParser = require( "body-parser" );
 const { MongoClient } = require( "mongodb" );
+
+const { validateIssue } = require( "./issue" );
 
 const app = express();
 
@@ -11,42 +13,6 @@ app.use( bodyParser.json() );
 app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup( swaggerDocument ) );
 
 let db;
-
-const validIssueStatus = {
-    New: true,
-    Open: true,
-    Assigned: true,
-    Fixed: true,
-    Verified: true,
-    Closed: true,
-};
-const issueFieldType = {
-    status: "required",
-    owner: "required",
-    effort: "optional",
-    created: "required",
-    completionDate: "optional",
-    title: "required",
-};
-
-function validateIssue( issue ) {
-    Object.keys( issueFieldType ).forEach( ( key ) => {
-        const type = issueFieldType[ key ];
-
-        if ( !type ) {
-            // eslint-disable-next-line no-param-reassign
-            delete issue[ key ];
-        } else if ( type === "required" && !issue[ key ] ) {
-            return `${ key } is required.`;
-        }
-    } );
-
-    if ( !validIssueStatus[ issue.status ] ) {
-        return `${ issue.status } is not a valid status.`;
-    }
-
-    return null;
-}
 
 MongoClient.connect( "mongodb://localhost:27017" ).then( ( client ) => {
     db = client.db( "issuetracker" );
