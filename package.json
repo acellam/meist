@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon -w dist dist/server.js",
     "start:hook": "nodemon -w server server/start_hook.js",
-    "compile:server": "babel server --presets es2015-node6 --out-dir dist --source-maps",
-    "watch:server": "babel server --presets es2015-node6 --out-dir dist --source-maps --watch",
+    "compile:server": "babel server --out-dir dist --source-maps",
+    "watch:server": "babel server --out-dir dist --source-maps --watch",
     "compile": "webpack",
     "pretest": "npm run compile && npm run lint && npm run compile:release",
     "watch": "webpack-dev-server  --hot --inline",
@@ -31,6 +31,7 @@
     "express": "^4.16.2",
     "mongodb": "^3.0.1",
     "prop-types": "^15.6.0",
+    "query-string": "^5.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",

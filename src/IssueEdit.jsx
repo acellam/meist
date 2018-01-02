@@ -14,6 +14,5 @@ export default class IssueEdit extends React.Component { // eslint-disable-line
 }
 
 IssueEdit.propTypes = {
-// eslint-disable-next-line react/forbid-prop-types
-    id: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
 };

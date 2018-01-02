@@ -1,6 +1,8 @@
 import React from "react";
 import { Link as ReactLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import "whatwg-fetch";
+import queryString from "query-string";
 
 import IssueAdd from "./IssueAdd";
 import IssueFilter from "./IssueFilter";
@@ -70,10 +72,21 @@ export default class IssueList extends React.Component {
         this.loadData();
     }
 
+    componentDidUpdate( prevProps ) {
+        const oldQuery = queryString.parse( prevProps.location.search );
+        const newQuery = queryString.parse( this.props.location.search );
+
+        if ( oldQuery.status === newQuery.status ) {
+            return;
+        }
+
+        this.loadData();
+    }
+
     // PRIVATE METHODS
 
     loadData() {
-        fetch( "/api/issues" ).then( ( response ) => {
+        fetch( `/api/issues${ this.props.location.search }` ).then( ( response ) => {
             if ( response.ok ) {
                 response.json().then( ( data ) => {
                     console.log( "Total count of records:", data._metadata.total_count );
@@ -116,3 +129,7 @@ export default class IssueList extends React.Component {
         } );
     }
 }
+
+IssueList.propTypes = {
+    location: PropTypes.object.isRequired,
+};
