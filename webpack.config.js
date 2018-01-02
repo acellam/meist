@@ -4,7 +4,7 @@ const path = require( "path" );
 module.exports = {
     entry: {
         app: [ "./src/App.jsx" ],
-        vendor: [ "react", "react-dom", "whatwg-fetch" ],
+        vendor: [ "react", "react-dom", "whatwg-fetch", "react-router" ],
     },
     output: {
         path: path.resolve( __dirname, "static" ),
@@ -32,4 +32,5 @@ module.exports = {
             } },
     },
     devtool: "source-map",
+    resolve: { extensions: [ ".js", ".jsx" ] },
 };

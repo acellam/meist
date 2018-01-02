@@ -4,7 +4,7 @@
     "browser": true
   },
   "rules": {
-    "import/no-dynamic-require": false,
+    "import/no-dynamic-require": 0,
     // indentation
     "indent": [ 2, 4 ],
     "react/jsx-indent": [ 2, 4 ],

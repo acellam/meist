@@ -1,0 +1,12 @@
+{
+  "extends": "../.eslintrc.json",
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "no-alert": ["off"],
+    "react/prop-types": 0,
+    "react/sort-comp": 0,
+    "no-underscore-dangle": 0
+  }
+}

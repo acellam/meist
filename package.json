@@ -12,7 +12,7 @@
     "pretest": "npm run compile && npm run lint && npm run compile:release",
     "watch": "webpack-dev-server  --hot --inline",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "./node_modules/.bin/eslint -c .eslintrc.json '**/*.js'",
+    "lint": "eslint --ext js,jsx src server webpack.config.js",
     "lint:fix": "npm run lint --fix",
     "dev": "npm run watch & npm run watch:server & npm start",
     "dev:hook": "npm run watch & npm run start:hook"
@@ -32,6 +32,8 @@
     "mongodb": "^3.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "source-map-support": "^0.5.0",
     "swagger-ui-express": "^2.0.13",
     "whatwg-fetch": "^2.0.3"
