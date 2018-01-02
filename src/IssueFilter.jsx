@@ -1,20 +1,47 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { Link as ReactLink } from "react-router-dom";
-import queryString from "query-string";
+import PropTypes from "prop-types";
 
-export default class IssueFilter extends React.Component { // eslint-disable-line
+export default class IssueFilter extends React.Component {
+    // MOUNT
+    constructor() {
+        super();
+
+        this.clearFilter = this.clearFilter.bind( this );
+        this.setFilterOpen = this.setFilterOpen.bind( this );
+        this.setFilterAssigned = this.setFilterAssigned.bind( this );
+    }
     render() {
         const Separator = () => <span> | </span>;
 
         return (
             <div>
-                <ReactLink to="/issues">All Issues</ReactLink>
+                <a href="#" onClick={this.clearFilter}>All Issues</a>
                 <Separator />
-                <ReactLink to={{ pathname: "/issues", search: queryString.stringify( { status: "Open" } ) }}>
-                    Open Issues
-                </ReactLink>
+                <a href="#" onClick={this.setFilterOpen}>Open Issues</a>
                 <Separator />
-                <ReactLink to="/issues?status=Assigned">Assigned Issues</ReactLink>
-            </div> );
+                <a href="#" onClick={this.setFilterAssigned}>Assigned Issues</a>
+            </div>
+        );
+    }
+
+    // PRIVATE METHODS
+
+    setFilterOpen( e ) {
+        e.preventDefault();
+        this.props.setFilter( { status: "Open" } );
+    }
+
+    setFilterAssigned( e ) {
+        e.preventDefault();
+        this.props.setFilter( { status: "Assigned" } );
+    }
+    clearFilter( e ) {
+        e.preventDefault();
+        this.props.setFilter( {} );
     }
 }
+
+IssueFilter.propTypes = {
+    setFilter: PropTypes.func.isRequired,
+};
