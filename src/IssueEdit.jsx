@@ -1,9 +1,19 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { Link as ReactLink } from "react-router-dom";
 
 export default class IssueEdit extends React.Component { // eslint-disable-line
     render() {
         return (
-            <div>This is a placeholder for the Issue Edit page.</div>
+            <div>
+                <p>This is a placeholder for editing issue {this.props.match.params.id}.</p>
+                <ReactLink to="/issues">Back to issue list</ReactLink>
+            </div>
         );
     }
 }
+
+IssueEdit.propTypes = {
+// eslint-disable-next-line react/forbid-prop-types
+    id: PropTypes.object.isRequired,
+};
