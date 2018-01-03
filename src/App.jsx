@@ -31,9 +31,9 @@ const RoutedApp = () => (
         <BrowserRouter>
             <Switch>
                 <Route key="key1" exact path="/" render={() => <Redirect to="/issues" />} />
-                <Route key="key21" path="/issues" component={withRouter( IssueList )} />
-                <Route key="key22" path="/issues/:id" component={IssueEdit} />
-                <Route key="key23" path="*" component={NoMatch} />
+                <Route key="key2" exact path="/issues" component={withRouter( IssueList )} />
+                <Route key="key3" exact path="/issues/:id" component={IssueEdit} />
+                <Route key="key4" exact path="*" component={NoMatch} />
             </Switch>
         </BrowserRouter>
     </App>

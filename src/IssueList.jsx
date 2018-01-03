@@ -59,7 +59,7 @@ export default class IssueList extends React.Component {
     render() {
         return (
             <div>
-                <IssueFilter setFilter={this.setFilter} initFilter={this.props.location.query} />
+                <IssueFilter setFilter={this.setFilter} initFilter={queryString.parse( this.props.location.search )} />
                 <hr />
                 <IssueTable issues={this.state.issues} />
                 <hr />
