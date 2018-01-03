@@ -87,10 +87,11 @@ export default class IssueList extends React.Component {
 
     setFilter( query ) {
         this.props.router.push( { pathname: this.props.location.pathname, query } );
+        this.loadData( `?${ queryString.stringify( query ) }` );
     }
 
-    loadData() {
-        fetch( `/api/issues${ this.props.location.search }` ).then( ( response ) => {
+    loadData( search = this.props.location.search ) {
+        fetch( `/api/issues${ search }` ).then( ( response ) => {
             if ( response.ok ) {
                 response.json().then( ( data ) => {
                     console.log( "Total count of records:", data._metadata.total_count );
