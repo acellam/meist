@@ -1,4 +1,4 @@
-sendtexts:
+meist:
     build: ./docker/node/
     working_dir: /app
     env_file: .env
